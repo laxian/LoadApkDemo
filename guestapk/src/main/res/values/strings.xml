@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">apkBeLoaded</string>
+    <string name="action_settings">Settings</string>
+    <string name="guest_text">I am from guest</string>
+</resources>
