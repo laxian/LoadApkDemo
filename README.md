@@ -73,7 +73,25 @@ resources = getPluginResources(apkName);
     }
 ```
     
+4 加载类
+        
+```
+    Class<?> demoClass = getClassFromApk(dexClassLoader, pkgName, "Demo");
 
+    // 反射调用对象方法
+    Method func1 = demoClass.getMethod("func1");
+    String func1Msg = (String) func1.invoke(demoClass.newInstance());
+    editText.setText(func1Msg);
 
-##guest
-guest apk
+    // 反射调用类方法
+    Method func2 = demoClass.getMethod("func2");
+    String func2Msg = (String) func2.invoke(demoClass);
+    editText.setText(String.format("func1 -> %s \nfunc2 -> %s", editText.getText(), func2Msg));
+    Log.d("abc", demoClass.toString());
+```
+
+##guestapk
+被加载的apk
+
+##runapp
+代码来自:https://github.com/bangelua/DynamicLoadApk

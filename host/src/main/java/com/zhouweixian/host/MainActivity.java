@@ -118,9 +118,6 @@ public class MainActivity extends Activity {
      * @return className对应的类
      */
     public Class<?> getClassFromApk(DexClassLoader dexClassLoader, String apkPackageName, String className) throws ClassNotFoundException {
-
-        //通过使用apk自己的类加载器，反射出R类中相应的内部类进而获取我们需要的资源id
-
         return dexClassLoader.loadClass(apkPackageName + "." + className);
     }
 
