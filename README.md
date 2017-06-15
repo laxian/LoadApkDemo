@@ -95,3 +95,6 @@ resources = getPluginResources(apkName);
 
 ##runapp
 代码来自:https://github.com/bangelua/DynamicLoadApk
+
+##hook
+[DroidPlugin](https://github.com/DroidPluginTeam/DroidPlugin)代码学习小demo

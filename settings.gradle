@@ -1,1 +1,1 @@
-include ':host', ':guestapk', ':runapp'
+include ':host', ':guestapk', ':runapp', ':hook'
