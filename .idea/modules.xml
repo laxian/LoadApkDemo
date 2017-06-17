@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LoadApkDemo.iml" filepath="$PROJECT_DIR$/LoadApkDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/LoadResourceDemo.iml" filepath="$PROJECT_DIR$/LoadResourceDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/binderhook/binderhook.iml" filepath="$PROJECT_DIR$/binderhook/binderhook.iml" />
-      <module fileurl="file://$PROJECT_DIR$/guestapk/guestapk.iml" filepath="$PROJECT_DIR$/guestapk/guestapk.iml" />
       <module fileurl="file://$PROJECT_DIR$/guestapk/guestapk.iml" filepath="$PROJECT_DIR$/guestapk/guestapk.iml" />
       <module fileurl="file://$PROJECT_DIR$/hook/hook.iml" filepath="$PROJECT_DIR$/hook/hook.iml" />
       <module fileurl="file://$PROJECT_DIR$/host/host.iml" filepath="$PROJECT_DIR$/host/host.iml" />

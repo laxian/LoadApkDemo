@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.zhouweixian.guest.MainActivity">
+    tools:context="com.zhouweixian.host.RealActivity">
 
-    <include layout="@layout/content_main"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I'm an activity without register"/>
 
 </RelativeLayout>
