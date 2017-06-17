@@ -6,10 +6,10 @@ package com.zhouweixian.guest;
 
 public class Demo {
     public String func1() {
-        return "words from Demo func1()";
+        return "words from func1() of class Demo in guestapk";
     }
 
     public static String func2() {
-        return "words from func2";
+        return "words from static func2 of class Demo in guestapk";
     }
 }

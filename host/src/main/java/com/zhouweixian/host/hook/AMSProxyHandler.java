@@ -1,10 +1,13 @@
 package com.zhouweixian.host.hook;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.zhouweixian.host.MainActivity;
+import com.zhouweixian.host.StubActivity;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -19,9 +22,21 @@ class AMSProxyHandler implements InvocationHandler {
     private static final String TAG = "AMSProxyHandler";
     private static final String RAW_INTENT_EXTRA = "raw_intent";
     private final Object base;
+    private final Context context;
 
-    public AMSProxyHandler(Object rawIAM) {
+    public AMSProxyHandler(Object rawIAM, Context context) {
         this.base = rawIAM;
+        this.context = context;
+    }
+
+    public boolean inManifest(Context context, String name) throws PackageManager.NameNotFoundException {
+        PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_ACTIVITIES);
+        for (int i = 0; i < packageInfo.activities.length; i++) {
+            if (packageInfo.activities[i].name.equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -40,8 +55,12 @@ class AMSProxyHandler implements InvocationHandler {
             }
 
             Intent rawIntent = (Intent) args[intentIndex];
+
+            if (inManifest(context,rawIntent.getComponent().getClassName()))
+                return method.invoke(base, args);
+
             Intent intent = new Intent();
-            ComponentName componentName = new ComponentName("com.zhouweixian.host", MainActivity.class.getName());
+            ComponentName componentName = new ComponentName("com.zhouweixian.host", StubActivity.class.getName());
             intent.setComponent(componentName);
             intent.putExtra(RAW_INTENT_EXTRA, rawIntent);
             args[intentIndex] = intent;

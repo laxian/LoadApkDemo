@@ -1,13 +1,13 @@
 package com.zhouweixian.guest;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     private Button bt_hotfix;
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         bt_hotfix = (Button) findViewById(R.id.bt_hotfix);
 
-        bt_hotfix.setOnClickListener(this);
+//        bt_hotfix.setOnClickListener(this);
     }
 
     @Override

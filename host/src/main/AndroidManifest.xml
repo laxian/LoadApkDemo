@@ -22,7 +22,6 @@
         <!-- 替身Activity, 用来欺骗AMS -->
         <activity android:name=".StubActivity" />
         <!-- <activity android:name=".RealActivity" /> -->
-        <activity android:name=".SecondActivity" />
     </application>
 
 </manifest>

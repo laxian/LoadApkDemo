@@ -29,8 +29,10 @@ class CustomActivityCallback implements Handler.Callback {
                 Field intentField = acr.getClass().getDeclaredField("intent");
                 intentField.setAccessible(true);
                 Intent intent = (Intent) intentField.get(acr);
-                Intent realIntent = (Intent) intent.getExtras().get(RAW_INTENT_EXTRA);
-                intent.setComponent(realIntent.getComponent());
+                if (intent.getExtras() != null) {
+                    Intent realIntent = (Intent) intent.getExtras().get(RAW_INTENT_EXTRA);
+                    intent.setComponent(realIntent.getComponent());
+                }
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

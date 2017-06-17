@@ -1,5 +1,6 @@
 package com.zhouweixian.host.hook;
 
+import android.content.Context;
 import android.os.Handler;
 
 import java.lang.reflect.Field;
@@ -16,7 +17,7 @@ public class HookHelper {
     private static final String SINGLETON = "android.util.Singleton";
     private static final String IACTIVITYMANAGER = "android.app.IActivityManager";
 
-    public static void hookActivityManagerNative() {
+    public static void hookActivityManagerNative(Context context) {
         try {
             // 找到ActivityManagerNative.gDefault.mInstance, 这是一个IActivityManager对象，将其用代理替换
             // 1 ActivityManagerNative
@@ -36,7 +37,7 @@ public class HookHelper {
 
             // create proxy
             Object proxyInstance = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                    new Class[]{IAMClass}, new AMSProxyHandler(rawIAM));
+                    new Class[]{IAMClass}, new AMSProxyHandler(rawIAM, context));
             mInstanceField.set(gDefault, proxyInstance);
 
         } catch (ClassNotFoundException e) {

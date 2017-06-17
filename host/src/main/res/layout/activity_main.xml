@@ -12,41 +12,76 @@
     tools:context="com.zhouweixian.host.MainActivity">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/icon"
-            android:layout_centerInParent="true"
-            android:text="Hello World!" />
-    </RelativeLayout>
-
-    <FrameLayout
         android:id="@+id/plugin_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="10dp">
 
-        <TextView
-            android:id="@+id/et_output"
-            android:layout_width="match_parent"
-            android:layout_height="140dp" />
-
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
-            android:text="SecondActivity"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="activity in other apk" />
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/button"
+            android:text="activity in other apk with new TextView()" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button2"
+            android:text="to activity unregister in manifest" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button3"
+            android:text="get String" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button4"
+            android:text="get Drawable" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button5"
+            android:text="invok method" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button6"
+            android:text="invok static method" />
+
+        <TextView
+            android:id="@+id/et_output"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/button7"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_output"/>
+
+    </RelativeLayout>
 </LinearLayout>
