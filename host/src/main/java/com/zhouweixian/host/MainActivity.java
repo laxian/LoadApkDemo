@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhouweixian.host.hook.HookHelper;
-import com.zhouweixian.host.util.ReflectUtil;
+import com.zhouweixian.host.util.Utils;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -50,8 +50,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         HookHelper.hookActivityManagerNative(this);
         HookHelper.hookActivityThreadHandler();
         String apkFullPath = apkDir + File.separator + apkName;
-        resources = ReflectUtil.getPluginResources(apkFullPath, this.getResources());
-        dexClassLoader = ReflectUtil.getDexClassLoader(apkFullPath, getDir("dex", Context.MODE_PRIVATE).getPath());
+        resources = Utils.getPluginResources(apkFullPath, this.getResources());
+        dexClassLoader = Utils.getDexClassLoader(apkFullPath, getDir("dex", Context.MODE_PRIVATE).getPath());
     }
 
     private void initView() {
@@ -80,8 +80,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 从apk中加载Activity
                 Class<?> hotfixActivity = null;
                 try {
-                    hotfixActivity = ReflectUtil.getClassFromApk(dexClassLoader, pkgName, "HotFixActivity");
-                    ReflectUtil.addPathToDexPathList(this, dexClassLoader);
+                    hotfixActivity = Utils.getClassFromApk(dexClassLoader, pkgName, "HotFixActivity");
+                    Utils.addPathToDexPathList(this, dexClassLoader);
                     Intent intent = new Intent(this, hotfixActivity);
                     intent.setClassName(pkgName, hotfixActivity.getName());
                     startActivity(intent);
@@ -93,8 +93,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 从apk中加载Activity
                 Class<?> codeUIActivity = null;
                 try {
-                    codeUIActivity = ReflectUtil.getClassFromApk(dexClassLoader, pkgName, "CodeUIActivity");
-                    ReflectUtil.addPathToDexPathList(this, dexClassLoader);
+                    codeUIActivity = Utils.getClassFromApk(dexClassLoader, pkgName, "CodeUIActivity");
+                    Utils.addPathToDexPathList(this, dexClassLoader);
                     Intent intent = new Intent(this, codeUIActivity);
                     intent.setClassName(pkgName, codeUIActivity.getName());
                     startActivity(intent);
@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 从apk中读取string 资源
                 int txtId = 0;
                 try {
-                    txtId = ReflectUtil.getResIdFromApk(dexClassLoader, pkgName, "string", "guest_text");
+                    txtId = Utils.getResIdFromApk(dexClassLoader, pkgName, "string", "guest_text");
                     String txt;
                     if (resources != null) {
                         txt = resources.getString(txtId);
@@ -127,7 +127,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 从apk 中读取drawable 资源
                 int imgId = 0;
                 try {
-                    imgId = ReflectUtil.getResIdFromApk(dexClassLoader, pkgName, "drawable", "guest_img");
+                    imgId = Utils.getResIdFromApk(dexClassLoader, pkgName, "drawable", "guest_img");
                     Drawable drawable;
                     if (resources != null) {
                         drawable = resources.getDrawable(imgId);
@@ -147,7 +147,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 从apk中加载类
                 Class<?> demoClass = null;
                 try {
-                    demoClass = ReflectUtil.getClassFromApk(dexClassLoader, pkgName, "Demo");
+                    demoClass = Utils.getClassFromApk(dexClassLoader, pkgName, "Demo");
                     // 反射调用对象方法
                     Method func1 = demoClass.getMethod("func1");
                     String func1Msg = (String) func1.invoke(demoClass.newInstance());
@@ -166,7 +166,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.button7:
                 try {
-                    demoClass = ReflectUtil.getClassFromApk(dexClassLoader, pkgName, "Demo");
+                    demoClass = Utils.getClassFromApk(dexClassLoader, pkgName, "Demo");
                     // 反射调用类方法
                     Method func2 = demoClass.getMethod("func2");
                     String func2Msg = (String) func2.invoke(demoClass);

@@ -12,6 +12,6 @@ public class HotFixActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main9);
+        setContentView(R.layout.activity_hot_fix);
     }
 }
