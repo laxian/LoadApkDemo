@@ -90,11 +90,45 @@ resources = getPluginResources(apkName);
     Log.d("abc", demoClass.toString());
 ```
 
+5 启动未注册的Activity
+
+[HookHelper](https://github.com/laxian/LoadApkDemo/blob/master/host/src/main/java/com/zhouweixian/host/hook/HookHelper.java).hookActivityManagerNative(this);
+
+[HookHelper](https://github.com/laxian/LoadApkDemo/blob/master/host/src/main/java/com/zhouweixian/host/hook/HookHelper.java).hookActivityThreadHandler();
+
+这种方式启动hook ActivityManagerService,用StubActivity代替未注册Activity,绕过AMS检查.
+在ActivityThread 中hook H(extends Handler)成员变量,换回真实启动的Activity,完成启动未注册Activity.
+同样,也可以启动插件apk的Activity. 但是插件里的资源无法加载.和host apk里资源id重复的,会加载host apk里的资源,
+在host apk 找不到的,抛出Resources$NotFoundException异常.
+
+        
+6 启动插件(未安装apk)的Activity
+
+见[classloader-hook]
+
 ##guestapk
 被加载的apk
+
+##classloader-hook
+
+
+通过反射PackageParser(@hide类,不同版本需要适配)加载apk,生成ApplicationInfo对象
+通过反射调用ActivityThread.getPackageInfoNoCheck, 传入ApplicationInfo生成LoadedApk对象
+通过反射,将插件apk生成LoadedApk对象,添加到ActivityThread.mPackages.
+
+经测试:
+
+调用插件apk Activity成功,
+
+插件内Activity跳转成功,
+
+插件Activity加载xml资源成功,
+
+插件Activity获取getFileStreamPath,并创建文件成功(需设置LoadedApk的mDataDir/mDataDirFile/mLibDir)
+
 
 ##runapp
 代码来自:https://github.com/bangelua/DynamicLoadApk
 
-##hook
+##instrumentation-hook
 [DroidPlugin](https://github.com/DroidPluginTeam/DroidPlugin)代码学习小demo
