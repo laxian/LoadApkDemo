@@ -28,7 +28,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void initView() {
         bt_hotfix = (Button) findViewById(R.id.bt_hotfix);
 
-//        bt_hotfix.setOnClickListener(this);
+        bt_hotfix.setOnClickListener(this);
     }
 
     @Override

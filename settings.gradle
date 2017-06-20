@@ -1,1 +1,1 @@
-include ':host', ':guestapk', ':runapp', ':hook', ':binderhook'
+include ':host', ':guestapk', ':runapp', ':instrumentaion-hook', ':binder-hook','classloader-hook'

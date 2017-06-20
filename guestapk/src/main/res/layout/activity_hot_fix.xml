@@ -6,8 +6,17 @@
     tools:context="com.zhouweixian.guest.HotFixActivity">
 
     <Button
+        android:id="@+id/bt_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hot Fix Success"/>
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_test"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
