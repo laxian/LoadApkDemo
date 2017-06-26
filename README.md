@@ -1,11 +1,10 @@
 # LoadApkDemo
 学习加载另一个apk中的资源，以及更多未知功能探索学习。
 
-##host
-宿主apk
+## host
+宿主apk,主要测试了从一个已安装的app中,从另一个未安装的apk包中读取资源, 和启动自身未在Manifest.xml注册的Activity
 
-######主要步骤
-1、读取一个apk里的资源，需要知道apk的路径，名字，包名，还需要资源的类型和资源的名字。
+1. 读取一个apk里的资源，需要知道apk的路径，名字，包名，还需要资源的类型和资源的名字。
 以drawable类型资源为例，资源的id定义在R$drawable里。资源的名字就是R$drawable的一个字段，
 我们可以通过反射，获取这个字段。不过首先得创建一个classloader：
 ```
@@ -29,7 +28,7 @@
 ```
 
 
-2、获得apk的Resource，将apk的资源添加到classpath。AssetManager有一个隐藏的方法addAssetPath，通过反射调用，
+2. 获得apk的Resource，将apk的资源添加到classpath。AssetManager有一个隐藏的方法addAssetPath，通过反射调用，
 将apk路径添加进去。
 ```
 private Resources getPluginResources(String apkName) {
@@ -55,7 +54,7 @@ private Resources getPluginResources(String apkName) {
 ```
 
 
-3、使用资源：
+3. 使用资源：
 获得了资源id和Resourde对象，就可以获得资源，然后就可以使用了。
         
 ```
@@ -73,7 +72,7 @@ resources = getPluginResources(apkName);
     }
 ```
     
-4 加载类
+4. 加载类
         
 ```
     Class<?> demoClass = getClassFromApk(dexClassLoader, pkgName, "Demo");
@@ -90,41 +89,50 @@ resources = getPluginResources(apkName);
     Log.d("abc", demoClass.toString());
 ```
 
-5 启动未注册的Activity
+5. 启动未注册的Activity
 
 [HookHelper](https://github.com/laxian/LoadApkDemo/blob/master/host/src/main/java/com/zhouweixian/host/hook/HookHelper.java).hookActivityManagerNative(this);
 
 [HookHelper](https://github.com/laxian/LoadApkDemo/blob/master/host/src/main/java/com/zhouweixian/host/hook/HookHelper.java).hookActivityThreadHandler();
 
-这种方式启动hook ActivityManagerService,用StubActivity代替未注册Activity,绕过AMS检查.
+> 这种方式启动hook ActivityManagerService,用StubActivity代替未注册Activity,绕过AMS检查.
 在ActivityThread 中hook H(extends Handler)成员变量,换回真实启动的Activity,完成启动未注册Activity.
-同样,也可以启动插件apk的Activity. 但是插件里的资源无法加载.和host apk里资源id重复的,会加载host apk里的资源,
+同样,也可以启动guest apk的Activity. 但是guest apk里的资源无法加载.和host apk里资源id重复的,会加载host apk里的资源,
 在host apk 找不到的,抛出Resources$NotFoundException异常.
 
         
-6 启动插件(未安装apk)的Activity
+6. 启动guest apk(未安装apk)的Activity
+    该方式启动Activity能成功,但是无法加载xml资源.
 
-见[classloader-hook]
+## classloader-hook
+解决合并pathList方法启动guest apk无法加载资源的问题,
+1. 思路:
 
-##guestapk
-被加载的apk
+    > 通过反射PackageParser(@hide类,不同版本需要适配)加载apk,生成ApplicationInfo对象
+    通过反射调用ActivityThread.getPackageInfoNoCheck, 传入ApplicationInfo生成LoadedApk对象
+    通过反射,将guest apk生成LoadedApk对象,添加到ActivityThread.mPackages.
 
-##classloader-hook
+2. 验证如下问题
++ 从host app跳转到guest apk, 
++ xml资源加载, 
++ guest apk 内部跳转
++ 以及从guest apk跳回host app
 
+跳转代码:
+```
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(pkgName, pkgName + ".MainActivity"));
+        startActivity(intent);
+```
 
-通过反射PackageParser(@hide类,不同版本需要适配)加载apk,生成ApplicationInfo对象
-通过反射调用ActivityThread.getPackageInfoNoCheck, 传入ApplicationInfo生成LoadedApk对象
-通过反射,将插件apk生成LoadedApk对象,添加到ActivityThread.mPackages.
-
-经测试:
-
-调用插件apk Activity成功,
-
-插件内Activity跳转成功,
-
-插件Activity加载xml资源成功,
-
-插件Activity获取getFileStreamPath,并创建文件成功(需设置LoadedApk的mDataDir/mDataDirFile/mLibDir)
+## guestapk
+被加载的apk:
++ `getFileStreamPath("test_dir");`
+> /data/data/com.zhouweixian.host/files/test_dir
++ `intent.setClassName("com.zhouweixian.host", "com.zhouweixian.host.MainActivity");`
+> 正常跳转
++ `startActivity(new Intent(this, HotFixActivity.class));`
+> 正常跳转
 
 
 ##runapp
