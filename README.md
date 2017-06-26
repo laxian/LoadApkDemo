@@ -91,11 +91,7 @@ resources = getPluginResources(apkName);
 
 5. 启动未注册的Activity
 
-[HookHelper](https://github.com/laxian/LoadApkDemo/blob/master/host/src/main/java/com/zhouweixian/host/hook/HookHelper.java).hookActivityManagerNative(this);
-
-[HookHelper](https://github.com/laxian/LoadApkDemo/blob/master/host/src/main/java/com/zhouweixian/host/hook/HookHelper.java).hookActivityThreadHandler();
-
-> 这种方式启动hook ActivityManagerService,用StubActivity代替未注册Activity,绕过AMS检查.
+这种方式启动hook ActivityManagerService,用StubActivity代替未注册Activity,绕过AMS检查.
 在ActivityThread 中hook H(extends Handler)成员变量,换回真实启动的Activity,完成启动未注册Activity.
 同样,也可以启动guest apk的Activity. 但是guest apk里的资源无法加载.和host apk里资源id重复的,会加载host apk里的资源,
 在host apk 找不到的,抛出Resources$NotFoundException异常.
@@ -108,9 +104,9 @@ resources = getPluginResources(apkName);
 解决合并pathList方法启动guest apk无法加载资源的问题,
 1. 思路:
 
-    > 通过反射PackageParser(@hide类,不同版本需要适配)加载apk,生成ApplicationInfo对象
-    通过反射调用ActivityThread.getPackageInfoNoCheck, 传入ApplicationInfo生成LoadedApk对象
-    通过反射,将guest apk生成LoadedApk对象,添加到ActivityThread.mPackages.
+通过反射PackageParser(@hide类,不同版本需要适配)加载apk,生成ApplicationInfo对象
+通过反射调用ActivityThread.getPackageInfoNoCheck, 传入ApplicationInfo生成LoadedApk对象
+通过反射,将guest apk生成LoadedApk对象,添加到ActivityThread.mPackages.
 
 2. 验证如下问题
 + 从host app跳转到guest apk, 
@@ -120,9 +116,9 @@ resources = getPluginResources(apkName);
 
 跳转代码:
 ```
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName(pkgName, pkgName + ".MainActivity"));
-        startActivity(intent);
+    Intent intent = new Intent();
+    intent.setComponent(new ComponentName(pkgName, pkgName + ".MainActivity"));
+    startActivity(intent);
 ```
 
 ## guestapk
@@ -135,8 +131,8 @@ resources = getPluginResources(apkName);
 > 正常跳转
 
 
-##runapp
+## runapp
 代码来自:https://github.com/bangelua/DynamicLoadApk
 
-##instrumentation-hook
+## instrumentation-hook
 [DroidPlugin](https://github.com/DroidPluginTeam/DroidPlugin)代码学习小demo
